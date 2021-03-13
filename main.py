@@ -12,15 +12,12 @@ class Lecturer(Mentor):
             self.average = round(sum(self.grades[grade]) / len(self.grades[grade]), 1)
         print(f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average}')
 
-    def comparison(self, another):
-        if not isinstance(another, Lecturer):
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Not a lecturer')
             return
-        if self.average > another.average:
-            print(f'Средняя оценка выше у {self.name} {self.surname}')
-        elif self.average < another.average:
-            print(f'Средняя оценка выше у {another.name} {another.surname}')
-        else:
-            print('Средние оценки лекторов равны')
+        return self.average < other.average
+
 
 class Student:
     def __init__(self, name, surname, gender, average=0):
@@ -46,15 +43,12 @@ class Student:
             self.average = round(sum(self.grades[grade]) / len(self.grades[grade]), 1)
         print(f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.average}\nКурсы в процессе изучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}')
 
-    def comparison(self, another):
-        if not isinstance(another, Student):
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print('Not a Student')
             return
-        if self.average > another.average:
-            print(f'Средняя оценка выше у {self.name} {self.surname}')
-        elif self.average < another.average:
-            print(f'Средняя оценка выше у {another.name} {another.surname}')
-        else:
-            print('Средние оценки студентов равны')
+        return self.average < other.average
+
 
 class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
@@ -97,14 +91,15 @@ first_student.rate_lecturer(first_lecturer, 'Mining', 10)
 first_student.rate_lecturer(first_lecturer, 'Mining', 8)
 second_student.rate_lecturer(second_lecturer, 'Craft', 9)
 second_student.rate_lecturer(second_lecturer, 'Craft', 8)
-second_student.rate_lecturer(second_lecturer, 'Craft', 10)
+second_student.rate_lecturer(second_lecturer, 'Craft', 5)
 
 first_reviewer.__str__()
 first_lecturer.__str__()
 second_lecturer.__str__()
-first_lecturer.comparison(second_lecturer)
+print(first_lecturer < second_lecturer)
 
 first_student.__str__()
 second_student.__str__()
-first_student.comparison(second_student)
+print(first_student < second_student)
+
 
